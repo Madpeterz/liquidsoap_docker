@@ -52,10 +52,10 @@ require_bool "$ICECAST_PUBLIC" ICECAST_PUBLIC
 if [ "$LIQ_NEXT_SONG_URL" = "random" ]; then
   random_playlist=/tmp/liquidsoap-random-playlist.m3u
 
-  find /data -maxdepth 1 -type f \( -iname '*.mp3' \) | sort > "$random_playlist"
+  find /data -type f \( -iname '*.mp3' \) | sort > "$random_playlist"
 
   if [ ! -s "$random_playlist" ]; then
-    echo "LIQ_NEXT_SONG_URL=random requires at least one .mp3 file in /data" >&2
+    echo "LIQ_NEXT_SONG_URL=random requires at least one .mp3 file in /data (including subfolders)" >&2
     exit 1
   fi
 
