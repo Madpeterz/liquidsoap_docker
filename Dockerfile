@@ -34,7 +34,8 @@ ENV LIQ_SOURCE_MODE=single \
     ICECAST_GENRE=Radio \
     ICECAST_URL=http://localhost \
     ICECAST_PUBLIC=false \
-    ICECAST_BITRATE=128
+    ICECAST_BITRATE=128 \
+    SHOUTCAST_SID=1
 
 VOLUME ["/data"]
 

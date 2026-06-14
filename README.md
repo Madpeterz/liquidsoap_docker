@@ -44,7 +44,9 @@ docker run --rm \
 - `LIQ_SOURCE_URI`: file path or playlist path inside the container
 - `LIQ_NEXT_SONG_URL`: optional URL for the next song. When set, the script extracts folder and file name from the URL path and derives `LIQ_SOURCE_URI` from it (query string and fragment are ignored).
 - `LIQ_NEXT_SONG_URL=random`: build a playlist from all `.mp3` files in `/data` (including subfolders) and play them in random order
+- `LIQ_DEBUG_DUMP_SCRIPT`: `true` or `false` (default `false`). When `true`, logs generated `/tmp/stream.liq` with password masked.
 - `LIQ_OUTPUT_SERVER`: `shoutcast2` or `icecast` (defaults to `shoutcast2`)
+- `SHOUTCAST_SID`: Shoutcast stream id for `shoutcast2` mode (default `1`)
 - `ICECAST_HOST`: streaming server hostname
 - `ICECAST_PORT`: streaming server port
 - `ICECAST_USER`: source username (typically `source`, used in `icecast` mode)
@@ -60,7 +62,7 @@ docker run --rm \
 
 Mode behavior:
 
-- `LIQ_OUTPUT_SERVER=shoutcast2` generates `output.shoutcast(...)` and uses `ICECAST_HOST`, `ICECAST_PORT`, and `ICECAST_PASSWORD`.
+- `LIQ_OUTPUT_SERVER=shoutcast2` generates `output.shoutcast(...)` and uses `ICECAST_HOST`, `ICECAST_PORT`, `ICECAST_PASSWORD`, and `SHOUTCAST_SID`.
 - `LIQ_OUTPUT_SERVER=icecast` generates `output.icecast(...)` and uses full Icecast fields, including `ICECAST_USER`, `ICECAST_MOUNT`, metadata, and `ICECAST_PUBLIC`.
 
 ## GitHub Actions: Auto Build and Push

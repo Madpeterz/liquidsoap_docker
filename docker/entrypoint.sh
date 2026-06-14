@@ -32,6 +32,8 @@ require_bool() {
 : "${LIQ_SOURCE_URI:=/data/stream.mp3}"
 : "${LIQ_NEXT_SONG_URL:=}"
 : "${LIQ_OUTPUT_SERVER:=shoutcast2}"
+: "${LIQ_DEBUG_DUMP_SCRIPT:=false}"
+: "${SHOUTCAST_SID:=1}"
 : "${ICECAST_HOST:=icecast}"
 : "${ICECAST_PORT:=8000}"
 : "${ICECAST_USER:=source}"
@@ -47,6 +49,7 @@ require_bool() {
 
 require_int "$ICECAST_PORT" ICECAST_PORT
 require_int "$ICECAST_BITRATE" ICECAST_BITRATE
+require_int "$SHOUTCAST_SID" SHOUTCAST_SID
 require_bool "$ICECAST_PUBLIC" ICECAST_PUBLIC
 
 if [ "$LIQ_NEXT_SONG_URL" = "random" ]; then
@@ -111,6 +114,21 @@ case "$LIQ_OUTPUT_SERVER" in
     ;;
 esac
 
+echo "Output server mode: $LIQ_OUTPUT_SERVER" >&2
+echo "Output target: $ICECAST_HOST:$ICECAST_PORT" >&2
+
+case "$ICECAST_HOST" in
+  localhost|127.0.0.1)
+    echo "Warning: ICECAST_HOST=$ICECAST_HOST points to the container itself. Use host.docker.internal or a reachable service name if the server runs outside this container." >&2
+    ;;
+esac
+
+if command -v getent >/dev/null 2>&1; then
+  if ! getent hosts "$ICECAST_HOST" >/dev/null 2>&1; then
+    echo "Warning: ICECAST_HOST does not resolve from inside container: $ICECAST_HOST" >&2
+  fi
+fi
+
 case "$LIQ_SOURCE_MODE" in
   single)
     source_expr="mksafe(single(\"$source_uri\"))"
@@ -141,6 +159,7 @@ output.shoutcast(
   ),
   host="${icecast_host}",
   port=${ICECAST_PORT},
+  sid=${SHOUTCAST_SID},
   password="${icecast_password}",
   radio
 )
@@ -169,6 +188,11 @@ output.icecast(
   radio
 )
 EOF
+fi
+
+echo "Generated Liquidsoap script: /tmp/stream.liq" >&2
+if [ "$LIQ_DEBUG_DUMP_SCRIPT" = "true" ]; then
+  sed -E 's/(password=")[^"]*(")/\1***\2/g' /tmp/stream.liq >&2
 fi
 
 exec liquidsoap /tmp/stream.liq
