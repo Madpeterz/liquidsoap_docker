@@ -128,7 +128,25 @@ case "$LIQ_SOURCE_MODE" in
     ;;
 esac
 
-cat > /tmp/stream.liq <<EOF
+if [ "$LIQ_OUTPUT_SERVER" = "shoutcast2" ]; then
+  cat > /tmp/stream.liq <<EOF
+settings.log.stdout := true
+
+radio = ${source_expr}
+
+output.shoutcast(
+  %mp3(
+    bitrate=${ICECAST_BITRATE},
+    stereo=true
+  ),
+  host="${icecast_host}",
+  port=${ICECAST_PORT},
+  password="${icecast_password}",
+  radio
+)
+EOF
+else
+  cat > /tmp/stream.liq <<EOF
 settings.log.stdout := true
 
 radio = ${source_expr}
@@ -151,5 +169,6 @@ output.icecast(
   radio
 )
 EOF
+fi
 
 exec liquidsoap /tmp/stream.liq

@@ -47,16 +47,21 @@ docker run --rm \
 - `LIQ_OUTPUT_SERVER`: `shoutcast2` or `icecast` (defaults to `shoutcast2`)
 - `ICECAST_HOST`: streaming server hostname
 - `ICECAST_PORT`: streaming server port
-- `ICECAST_USER`: source username (typically `source` for Shoutcast2)
-- `ICECAST_PASSWORD`: Source password
-- `ICECAST_MOUNT`: Mount path, for example `/stream.mp3`
-- `ICECAST_PROTOCOL`: currently ignored by this image because Liquidsoap 2.4.4 `output.icecast` in the bundled package does not accept a `protocol` parameter.
+- `ICECAST_USER`: source username (typically `source`, used in `icecast` mode)
+- `ICECAST_PASSWORD`: source password
+- `ICECAST_MOUNT`: mount path, for example `/stream.mp3` (used in `icecast` mode)
+- `ICECAST_PROTOCOL`: currently ignored by this image because the bundled Liquidsoap package does not accept a `protocol` argument on `output.icecast`
 - `ICECAST_NAME`: Stream display name
 - `ICECAST_DESCRIPTION`: Stream description
 - `ICECAST_GENRE`: Stream genre
 - `ICECAST_URL`: Public station URL
-- `ICECAST_PUBLIC`: `true` or `false`
+- `ICECAST_PUBLIC`: `true` or `false` (used in `icecast` mode)
 - `ICECAST_BITRATE`: MP3 bitrate in kbps
+
+Mode behavior:
+
+- `LIQ_OUTPUT_SERVER=shoutcast2` generates `output.shoutcast(...)` and uses `ICECAST_HOST`, `ICECAST_PORT`, and `ICECAST_PASSWORD`.
+- `LIQ_OUTPUT_SERVER=icecast` generates `output.icecast(...)` and uses full Icecast fields, including `ICECAST_USER`, `ICECAST_MOUNT`, metadata, and `ICECAST_PUBLIC`.
 
 ## GitHub Actions: Auto Build and Push
 
