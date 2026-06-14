@@ -57,3 +57,26 @@ docker run --rm \
 - `ICECAST_URL`: Public station URL
 - `ICECAST_PUBLIC`: `true` or `false`
 - `ICECAST_BITRATE`: MP3 bitrate in kbps
+
+## GitHub Actions: Auto Build and Push
+
+Workflow file:
+
+- `.github/workflows/docker-publish.yml`
+
+Triggers:
+
+- Push to `main`
+- Version tags like `v1.0.0`
+- Manual run (`workflow_dispatch`)
+
+### Required Repository Secrets
+
+Set these in GitHub: Settings -> Secrets and variables -> Actions:
+
+- `DOCKER_REGISTRY` (example: `docker.io`)
+- `DOCKER_IMAGE_NAME` (example: `youruser/shoutcast2`)
+- `DOCKER_USERNAME`
+- `DOCKER_TOKEN`
+
+The workflow publishes tags for branch, git tag, commit SHA, and `latest` on the default branch.
