@@ -97,27 +97,19 @@ icecast_host=$(escape_liq "$ICECAST_HOST")
 icecast_user=$(escape_liq "$ICECAST_USER")
 icecast_password=$(escape_liq "$ICECAST_PASSWORD")
 icecast_mount=$(escape_liq "$ICECAST_MOUNT")
-icecast_protocol=$(escape_liq "$ICECAST_PROTOCOL")
 icecast_name=$(escape_liq "$ICECAST_NAME")
 icecast_description=$(escape_liq "$ICECAST_DESCRIPTION")
 icecast_genre=$(escape_liq "$ICECAST_GENRE")
 icecast_url=$(escape_liq "$ICECAST_URL")
 
-if [ -z "$ICECAST_PROTOCOL" ]; then
-  case "$LIQ_OUTPUT_SERVER" in
-    shoutcast2)
-      ICECAST_PROTOCOL=icy
-      ;;
-    icecast)
-      ICECAST_PROTOCOL=http
-      ;;
-    *)
-      echo "LIQ_OUTPUT_SERVER must be shoutcast2 or icecast, got: $LIQ_OUTPUT_SERVER" >&2
-      exit 1
-      ;;
-  esac
-  icecast_protocol=$(escape_liq "$ICECAST_PROTOCOL")
-fi
+case "$LIQ_OUTPUT_SERVER" in
+  shoutcast2|icecast)
+    ;;
+  *)
+    echo "LIQ_OUTPUT_SERVER must be shoutcast2 or icecast, got: $LIQ_OUTPUT_SERVER" >&2
+    exit 1
+    ;;
+esac
 
 case "$LIQ_SOURCE_MODE" in
   single)
@@ -151,7 +143,6 @@ output.icecast(
   user="${icecast_user}",
   password="${icecast_password}",
   mount="${icecast_mount}",
-  protocol="${icecast_protocol}",
   name="${icecast_name}",
   description="${icecast_description}",
   genre="${icecast_genre}",

@@ -50,7 +50,7 @@ docker run --rm \
 - `ICECAST_USER`: source username (typically `source` for Shoutcast2)
 - `ICECAST_PASSWORD`: Source password
 - `ICECAST_MOUNT`: Mount path, for example `/stream.mp3`
-- `ICECAST_PROTOCOL`: protocol for output transport (`icy` for Shoutcast2, `http` for Icecast). If unset, selected automatically from `LIQ_OUTPUT_SERVER`.
+- `ICECAST_PROTOCOL`: currently ignored by this image because Liquidsoap 2.4.4 `output.icecast` in the bundled package does not accept a `protocol` parameter.
 - `ICECAST_NAME`: Stream display name
 - `ICECAST_DESCRIPTION`: Stream description
 - `ICECAST_GENRE`: Stream genre
