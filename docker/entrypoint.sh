@@ -33,7 +33,6 @@ require_bool() {
 : "${LIQ_NEXT_SONG_URL:=}"
 : "${LIQ_OUTPUT_SERVER:=shoutcast2}"
 : "${LIQ_DEBUG_DUMP_SCRIPT:=false}"
-: "${SHOUTCAST_SID:=1}"
 : "${ICECAST_HOST:=icecast}"
 : "${ICECAST_PORT:=8000}"
 : "${ICECAST_USER:=source}"
@@ -49,7 +48,6 @@ require_bool() {
 
 require_int "$ICECAST_PORT" ICECAST_PORT
 require_int "$ICECAST_BITRATE" ICECAST_BITRATE
-require_int "$SHOUTCAST_SID" SHOUTCAST_SID
 require_bool "$ICECAST_PUBLIC" ICECAST_PUBLIC
 
 if [ "$LIQ_NEXT_SONG_URL" = "random" ]; then
@@ -157,9 +155,6 @@ output.shoutcast(
   host="${ICECAST_HOST}",
   port=${ICECAST_PORT},
   password="${ICECAST_PASSWORD}",
-  mount="/stream/${SHOUTCAST_SID}",
-  url="${ICECAST_URL}",
-  genre="${ICECAST_GENRE}",
   radio
 )
 EOF
