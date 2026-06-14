@@ -153,14 +153,13 @@ settings.log.stdout := true
 radio = ${source_expr}
 
 output.shoutcast(
-  %mp3(
-    bitrate=${ICECAST_BITRATE},
-    stereo=true
-  ),
-  host="${icecast_host}",
+  %mp3,
+  host="${ICECAST_HOST}",
   port=${ICECAST_PORT},
-  sid=${SHOUTCAST_SID},
-  password="${icecast_password}",
+  password="${ICECAST_PASSWORD}",
+  mount="/stream/${SHOUTCAST_SID}",
+  url="${ICECAST_URL}",
+  genre="${ICECAST_GENRE}",
   radio
 )
 EOF
@@ -175,15 +174,15 @@ output.icecast(
     bitrate=${ICECAST_BITRATE},
     stereo=true
   ),
-  host="${icecast_host}",
+  host="${ICECAST_HOST}",
   port=${ICECAST_PORT},
-  user="${icecast_user}",
-  password="${icecast_password}",
-  mount="${icecast_mount}",
-  name="${icecast_name}",
-  description="${icecast_description}",
-  genre="${icecast_genre}",
-  url="${icecast_url}",
+  user="${ICECAST_USER}",
+  password="${ICECAST_PASSWORD}",
+  mount="${ICECAST_MOUNT}",
+  name="${ICECAST_NAME}",
+  description="${ICECAST_DESCRIPTION}",
+  genre="${ICECAST_GENRE}",
+  url="${ICECAST_URL}",
   public=${ICECAST_PUBLIC},
   radio
 )
